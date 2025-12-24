@@ -1,1 +1,106 @@
 
+
+📅 12‑Week MySQL Roadmap
+Month 1: Fundamentals & Revision
+Week 1
+Learn/revise SELECT, WHERE, ORDER BY, LIMIT.
+Practice filtering and sorting data from sample tables.
+
+Week 2
+Master JOINs: INNER, LEFT, RIGHT.
+Practice combining data from multiple tables (employees + departments).
+
+Week 3
+Aggregations: COUNT, SUM, AVG, MIN, MAX.
+Grouping with GROUP BY and filtering with HAVING.
+
+Week 4
+Subqueries: nested queries for filtering and aggregations.
+Practice writing queries that answer business questions.
+
+Month 2: Intermediate Concepts
+Week 5
+Views: create reusable query results.
+Practice building views for reporting.
+
+Week 6
+Indexes: clustered vs. non‑clustered, query optimization.
+Compare query performance with and without indexes.
+
+Week 7
+Stored Procedures & Functions: automate repetitive tasks.
+Write a procedure to calculate monthly sales totals.
+
+Week 8
+Transactions: BEGIN, COMMIT, ROLLBACK.
+Practice ensuring data consistency in multi‑step operations.
+
+Month 3: Advanced Topics & Admin
+Week 9
+Triggers: automate actions when data changes.
+Example: log updates to a table in an audit table.
+
+Week 10
+Schema Design & Normalization (1NF → 3NF).
+Design a normalized database for an e‑commerce app.
+
+Week 11
+Partitioning & Sharding basics for large datasets.
+Learn how MySQL handles big data scaling.
+
+Week 12
+Performance tuning: EXPLAIN plans, query rewriting.
+User management, roles, privileges, backups (mysqldump).
+
+📚 Where to Learn MySQL (Step by Step)
+1. Fundamentals (Weeks 1–4)
+Official MySQL Documentation → dev.mysql.com/doc  
+Best for syntax reference and examples.
+
+FreeCodeCamp YouTube Course → “MySQL Full Course” (4–hour beginner friendly).
+
+W3Schools MySQL Tutorial → w3schools.com/mysql  
+Quick, interactive lessons with practice queries.
+
+2. Intermediate Concepts (Weeks 5–8)
+Khan Academy SQL Course → Covers joins, subqueries, and aggregations interactively.
+
+LeetCode SQL Practice → Real interview‑style SQL problems.
+
+Udemy Course → “The Complete SQL Bootcamp” by Jose Portilla (paid, but very popular).
+
+3. Advanced Topics & Admin (Weeks 9–12)
+MySQL Performance Blog (Percona) → Deep dives into indexing, optimization, and scaling.
+
+Coursera Specialization → “Databases for Data Scientists” (University of Colorado).
+
+YouTube Channels → “TechTFQ” and “Programming with Mosh” for triggers, transactions, and schema design.
+
+🛠️ Practice Platforms
+SQLZoo → Interactive exercises.
+
+Hackerrank SQL Track → Practice problems with instant feedback.
+
+Mode Analytics SQL Tutorial → Business‑oriented SQL queries.
+
+🚀 How to Use These Resources
+Spend 15–20 min watching/reading theory (YouTube, docs, tutorials).
+
+Spend 20–30 min practicing queries on Hackerrank/LeetCode/SQLZoo.
+
+Apply weekly concepts to a mini project (like an e‑commerce database).
+
+
+
+Best YouTube channels for learning MySQL are FreeCodeCamp, Programming with Mosh, and Alex the Analyst. For practicing MySQL in real time, OneCompiler and HackerRank are excellent platforms.
+
+📺 Best YouTube Channels for MySQL
+FreeCodeCamp.org → Offers a complete MySQL beginner course (4+ hours) with clear explanations and hands‑on demos.
+
+Programming with Mosh → Known for concise, beginner‑friendly tutorials that explain SQL concepts step by step.
+
+Alex the Analyst → Focuses on SQL for data analytics, with practical examples and interview‑style problems.
+
+TechTFQ → Great for intermediate learners, covering tricky SQL queries and real‑world scenarios.
+
+Kudvenkat → Deep dive into SQL concepts with hundreds of videos, good for thorough learners.
