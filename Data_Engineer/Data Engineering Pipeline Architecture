@@ -69,3 +69,8 @@
 - **As a Source** → Many companies store raw transactional data in MySQL.  
 - **As Storage** → MySQL can act as a reporting database or staging area.  
 - **For Validation** → SQL queries in MySQL are used to check pipeline correctness.  
+
+
+
+✅ This diagram shows the end-to-end flow:
+Sources → Ingestion → Storage → Processing → Orchestration → Consumption.
