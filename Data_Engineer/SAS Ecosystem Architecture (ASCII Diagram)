@@ -114,3 +114,35 @@ I make sure the data jobs in SAS run properly every day. If something fails, I c
 When someone asks “What is SAS?”, you can confidently say:
 
 “SAS is a platform for data management and analytics. In our team, we use SAS Grid and SAS Studio to run and monitor ETL jobs that move and transform data for reporting and analysis.”
+
+# SAS → Data Engineering Mapping
+
+## Current SAS Work vs Modern Equivalent
+
+| Your Current SAS Work                  | Modern Data Engineering Equivalent            | Why It Fits |
+|----------------------------------------|-----------------------------------------------|-------------|
+| SAS Grid (workload orchestration)      | Apache Airflow / Azure Data Factory / AWS Glue / Databricks Jobs | Both schedule, distribute, and monitor jobs across servers or clusters. |
+| SAS EG / SAS Studio (coding interfaces)| Jupyter Notebooks / SQL IDEs / PySpark Notebooks | Both are environments for writing queries, transformations, and workflows. |
+| Linux (logs, permissions, troubleshooting) | Cloud Infra Monitoring (AWS CloudWatch, Azure Monitor, GCP Logging) | Both involve checking logs, managing permissions, and resolving failures. |
+| Job Monitoring (success/failure logs)  | Pipeline Monitoring (Airflow DAGs, ADF runs, Glue jobs) | Same responsibility: ensure pipelines run reliably and troubleshoot when they don’t. |
+| Data Flow Validation (tables, rows, reporting) | Data Quality Checks (SQL, dbt, Great Expectations) | Both validate that data moves correctly from source → warehouse → reporting. |
+| Reporting Awareness (SAS reports)      | BI Tools (Power BI, Tableau, Looker)           | Both deliver insights to business users after data pipelines finish. |
+
+---
+
+## How It Fits in the Data Engineer Role
+- **You already do orchestration** → SAS Grid = Airflow/ADF/Glue.  
+- **You already monitor pipelines** → Logs, failures, retries = same in cloud.  
+- **You already validate data** → SQL checks = same in modern warehouses.  
+- **You already manage infrastructure** → Linux permissions = IAM roles in cloud.  
+- **You already support reporting** → SAS reports = BI dashboards today.  
+
+👉 The *concepts* are the same — only the *tools* differ.
+
+---
+
+## Bottom Line
+Your SAS experience **fits perfectly into the data engineer world** because:
+- You understand **pipelines, orchestration, monitoring, troubleshooting, and data validation**.  
+- Modern data engineers do the same, but with **cloud-native tools** (Airflow, Spark, Snowflake, AWS/Azure/GCP).  
+- Transitioning is about **tool migration, not role reinvention** — you already have the foundation.
