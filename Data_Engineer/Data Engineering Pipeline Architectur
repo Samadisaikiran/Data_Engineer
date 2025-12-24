@@ -1,0 +1,71 @@
+# Data Engineering Pipeline Architecture (Text Diagram)
+
+## 1. Data Sources
+- Transactional databases (MySQL, Oracle, SQL Server)
+- APIs (REST, JSON, XML)
+- Flat files (CSV, Excel, Parquet)
+- Streaming sources (Kafka, IoT, logs)
+
+        +-------------------+
+        |   Data Sources    |
+        +-------------------+
+                 |
+                 v
+
+## 2. Ingestion Layer
+- Batch ingestion (Talend, Informatica, Azure Data Factory, AWS Glue)
+- Streaming ingestion (Kafka, Spark Streaming, Flink)
+
+        +-------------------+
+        |   Ingestion       |
+        +-------------------+
+                 |
+                 v
+
+## 3. Storage Layer
+- Data Lake (AWS S3, Azure Data Lake, GCP Cloud Storage)
+- Data Warehouse (Snowflake, Redshift, BigQuery, Synapse)
+- Relational DBs (MySQL, PostgreSQL)
+
+        +-------------------+
+        |   Storage         |
+        +-------------------+
+                 |
+                 v
+
+## 4. Processing Layer
+- Batch: SQL, Spark, PySpark
+- Streaming: Kafka Streams, Flink, Spark Structured Streaming
+- Transformations: Cleaning, joining, aggregating
+
+        +-------------------+
+        |   Processing      |
+        +-------------------+
+                 |
+                 v
+
+## 5. Orchestration Layer
+- Workflow scheduling (Airflow, Prefect, Dagster)
+- Cloud-native orchestration (Azure Data Factory, AWS Glue)
+
+        +-------------------+
+        |   Orchestration   |
+        +-------------------+
+                 |
+                 v
+
+## 6. Consumption Layer
+- BI tools (Power BI, Tableau, Looker)
+- ML pipelines (feeding clean data into ML models)
+- APIs (serving data to applications)
+
+        +-------------------+
+        |   Consumption     |
+        +-------------------+
+
+---
+
+## Where MySQL Fits
+- **As a Source** → Many companies store raw transactional data in MySQL.  
+- **As Storage** → MySQL can act as a reporting database or staging area.  
+- **For Validation** → SQL queries in MySQL are used to check pipeline correctness.  
