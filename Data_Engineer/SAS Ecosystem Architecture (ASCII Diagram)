@@ -1,0 +1,50 @@
+# SAS Ecosystem Architecture (ASCII Diagram)
+
+                +--------------------------+
+                |   SAS EG / SAS Studio    |
+                |  (Front-end coding, GUI) |
+                +--------------------------+
+                           |
+                           v
+                +--------------------------+
+                |   SAS Programs / Jobs    |
+                |  (ETL logic, workflows)  |
+                +--------------------------+
+                           |
+                           v
+                +--------------------------+
+                |   SAS Grid Manager       |
+                |  (Workload orchestration |
+                |   & distributed execution)|
+                +--------------------------+
+                           |
+                           v
+                +--------------------------+
+                |   Linux Infrastructure   |
+                |  (Logs, permissions, OS) |
+                +--------------------------+
+                           |
+                           v
+                +--------------------------+
+                |   Data Warehouse / DBs   |
+                |  (Reporting layer, BI)   |
+                +--------------------------+
+
+
+
+🔑 Explanation
+SAS EG / SAS Studio → Where you write or design jobs (front-end).
+
+SAS Programs/Jobs → The actual ETL logic (extract, transform, load).
+
+SAS Grid → The engine that distributes and orchestrates jobs across servers.
+
+Linux → The foundation where logs, permissions, and system-level monitoring happen.
+
+Data Warehouse/DBs → The final destination for clean data, used in reporting tools.
+
+✅ Bottom line:
+
+SAS Grid is the middle layer — it doesn’t create reports, but ensures jobs run reliably and efficiently.
+
+EG/Studio are interfaces, Linux is infrastructure, and reporting happens after data lands in warehouses.
