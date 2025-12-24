@@ -48,3 +48,24 @@ Data Warehouse/DBs → The final destination for clean data, used in reporting t
 SAS Grid is the middle layer — it doesn’t create reports, but ensures jobs run reliably and efficiently.
 
 EG/Studio are interfaces, Linux is infrastructure, and reporting happens after data lands in warehouses.
+
+
+
+🔑 Mapping Summary
+SAS EG / Studio → Jupyter / SQL IDEs  
+(Front-end coding environments)
+
+SAS Programs → SQL + Python + Spark  
+(ETL logic and transformations)
+
+SAS Grid → Airflow / ADF / Glue  
+(Orchestration and distributed execution)
+
+Linux logs/permissions → Cloud Infra (AWS/Azure/GCP)  
+(Monitoring, IAM, system-level troubleshooting)
+
+Data Warehouse → Snowflake / Synapse / BigQuery / Redshift  
+(Structured storage for analytics)
+
+Reporting → Power BI / Tableau / Looker  
+(Visualization layer)
