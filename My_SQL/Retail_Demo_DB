@@ -1,0 +1,324 @@
+
+-- Retail MySQL Data Engineering Demo (MySQL 8.0 compatible)
+
+-- Create database
+DROP DATABASE IF EXISTS retail_demo;
+CREATE DATABASE retail_demo CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE retail_demo;
+
+-- Reference tables (dimensions)
+CREATE TABLE categories (
+  category_id INT AUTO_INCREMENT PRIMARY KEY,
+  category_name VARCHAR(100) NOT NULL UNIQUE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+  product_id INT AUTO_INCREMENT PRIMARY KEY,
+  product_sku VARCHAR(50) NOT NULL UNIQUE,
+  product_name VARCHAR(200) NOT NULL,
+  category_id INT NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_products_category
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+CREATE TABLE customers (
+  customer_id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(200) NOT NULL UNIQUE,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  phone VARCHAR(30),
+  city VARCHAR(100),
+  country VARCHAR(100),
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE inventory (
+  product_id INT PRIMARY KEY,
+  on_hand INT NOT NULL DEFAULT 0,
+  safety_stock INT NOT NULL DEFAULT 0,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_inventory_product
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- Core transactions
+CREATE TABLE orders (
+  order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  order_status ENUM('NEW','PAID','SHIPPED','CANCELLED','REFUNDED') NOT NULL DEFAULT 'NEW',
+  order_ts DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  channel ENUM('WEB','MOBILE','STORE','MARKETPLACE') NOT NULL DEFAULT 'WEB',
+  CONSTRAINT fk_orders_customer
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE order_items (
+  order_item_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  order_id BIGINT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_order_items_order
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+  CONSTRAINT fk_order_items_product
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+CREATE TABLE payments (
+  payment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  order_id BIGINT NOT NULL,
+  payment_ts DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  amount DECIMAL(10,2) NOT NULL,
+  method ENUM('CARD','UPI','NETBANKING','COD','WALLET') NOT NULL,
+  status ENUM('PENDING','SUCCESS','FAILED','REFUNDED') NOT NULL DEFAULT 'PENDING',
+  CONSTRAINT fk_payments_order
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+-- Event / audit (use TEXT if your MySQL is < 5.7)
+CREATE TABLE event_log (
+  event_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT,
+  event_type VARCHAR(50) NOT NULL,
+  event_ts DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  metadata JSON,
+  INDEX idx_event_ts (event_ts),
+  CONSTRAINT fk_event_customer
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Staging tables (raw ingestion)
+CREATE TABLE stg_orders_raw (
+  batch_id VARCHAR(64) NOT NULL,
+  order_external_id VARCHAR(64) NOT NULL,
+  customer_email VARCHAR(200) NOT NULL,
+  order_status VARCHAR(20),
+  order_ts DATETIME,
+  channel VARCHAR(20),
+  PRIMARY KEY (batch_id, order_external_id)
+);
+
+CREATE TABLE stg_order_items_raw (
+  batch_id VARCHAR(64) NOT NULL,
+  order_external_id VARCHAR(64) NOT NULL,
+  product_sku VARCHAR(50) NOT NULL,
+  quantity INT NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (batch_id, order_external_id, product_sku)
+);
+
+CREATE TABLE etl_run_log (
+  run_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  pipeline_name VARCHAR(200) NOT NULL,
+  batch_id VARCHAR(64) NOT NULL,
+  status ENUM('STARTED','SUCCESS','FAILED') NOT NULL,
+  started_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  ended_at DATETIME NULL,
+  rows_in INT DEFAULT 0,
+  rows_out INT DEFAULT 0,
+  message TEXT
+);
+
+-- Indexes (optional but useful)
+CREATE INDEX idx_orders_customer_ts ON orders(customer_id, order_ts);
+CREATE INDEX idx_order_items_order ON order_items(order_id);
+CREATE INDEX idx_payments_order_ts ON payments(order_id, payment_ts);
+CREATE INDEX idx_products_category ON products(category_id);
+
+-- Reporting view
+CREATE OR REPLACE VIEW v_daily_sales_mysql AS
+SELECT DATE(o.order_ts) AS order_date,
+       COUNT(DISTINCT o.order_id) AS orders,
+       SUM(oi.quantity * oi.unit_price) AS gross_sales,
+       SUM(CASE WHEN p.status = 'SUCCESS' THEN p.amount ELSE 0 END) AS paid_amount
+FROM orders o
+JOIN order_items oi ON oi.order_id = o.order_id
+LEFT JOIN payments p ON p.order_id = o.order_id
+GROUP BY DATE(o.order_ts);
+
+-- Stored procedure and trigger can be added later after core tables load successfully
+
+data insert:
+
+
+USE retail_demo;
+
+-- ==========================
+-- 1) Categories (dimensions)
+-- ==========================
+INSERT INTO categories (category_name) VALUES
+('Electronics'),
+('Home & Kitchen'),
+('Books'),
+('Fashion');
+
+-- ==========================
+-- 2) Products (FK -> categories)
+-- ==========================
+-- We’ll lookup category_id by name to avoid hardcoding IDs
+INSERT INTO products (product_sku, product_name, category_id, unit_price, is_active)
+SELECT 'ELEC-IPH-14','Apple iPhone 14', c.category_id, 69999.00, 1 FROM categories c WHERE c.category_name='Electronics';
+INSERT INTO products (product_sku, product_name, category_id, unit_price, is_active)
+SELECT 'HOME-MIX-500','Prestige Mixer 500W', c.category_id, 3499.00, 1 FROM categories c WHERE c.category_name='Home & Kitchen';
+INSERT INTO products (product_sku, product_name, category_id, unit_price, is_active)
+SELECT 'BOOK-DSA-01','Data Structures in Python', c.category_id, 799.00, 1 FROM categories c WHERE c.category_name='Books';
+INSERT INTO products (product_sku, product_name, category_id, unit_price, is_active)
+SELECT 'FASH-TSH-XL','Plain T-Shirt XL', c.category_id, 499.00, 1 FROM categories c WHERE c.category_name='Fashion';
+INSERT INTO products (product_sku, product_name, category_id, unit_price, is_active)
+SELECT 'ELEC-HP-LAP','HP Laptop 15\"', c.category_id, 45999.00, 1 FROM categories c WHERE c.category_name='Electronics';
+INSERT INTO products (product_sku, product_name, category_id, unit_price, is_active)
+SELECT 'FASH-JNS-32','Blue Jeans 32\"', c.category_id, 1299.00, 1 FROM categories c WHERE c.category_name='Fashion';
+
+-- ==========================
+-- 3) Inventory (FK -> products)
+-- ==========================
+-- Map product_sku to product_id to keep it robust
+INSERT INTO inventory (product_id, on_hand, safety_stock)
+SELECT p.product_id, 50, 5 FROM products p WHERE p.product_sku='ELEC-IPH-14';
+INSERT INTO inventory (product_id, on_hand, safety_stock)
+SELECT p.product_id, 200, 20 FROM products p WHERE p.product_sku='HOME-MIX-500';
+INSERT INTO inventory (product_id, on_hand, safety_stock)
+SELECT p.product_id, 500, 50 FROM products p WHERE p.product_sku='BOOK-DSA-01';
+INSERT INTO inventory (product_id, on_hand, safety_stock)
+SELECT p.product_id, 300, 30 FROM products p WHERE p.product_sku='FASH-TSH-XL';
+INSERT INTO inventory (product_id, on_hand, safety_stock)
+SELECT p.product_id, 40, 5 FROM products p WHERE p.product_sku='ELEC-HP-LAP';
+INSERT INTO inventory (product_id, on_hand, safety_stock)
+SELECT p.product_id, 150, 15 FROM products p WHERE p.product_sku='FASH-JNS-32';
+
+-- ==========================
+-- 4) Customers
+-- ==========================
+INSERT INTO customers (email, first_name, last_name, phone, city, country) VALUES
+('sai.kiran@example.com','Sai','Kiran','+91-9000000001','Hyderabad','India'),
+('alex.lee@example.com','Alex','Lee','+1-4155550101','San Francisco','USA'),
+('maria.garcia@example.com','Maria','Garcia','+34-600123456','Madrid','Spain'),
+('fatima.khan@example.com','Fatima','Khan','+971-555123456','Dubai','UAE'),
+('john.smith@example.com','John','Smith','+44-7700123456','London','UK');
+
+-- ==========================
+-- 5) Orders (FK -> customers)
+-- ==========================
+INSERT INTO orders (customer_id, order_status, order_ts, channel)
+SELECT customer_id, 'NEW',      '2025-12-01 10:15:00', 'WEB'         FROM customers WHERE email='sai.kiran@example.com';
+INSERT INTO orders (customer_id, order_status, order_ts, channel)
+SELECT customer_id, 'PAID',     '2025-12-02 12:00:00', 'MOBILE'      FROM customers WHERE email='alex.lee@example.com';
+INSERT INTO orders (customer_id, order_status, order_ts, channel)
+SELECT customer_id, 'SHIPPED',  '2025-12-03 18:30:00', 'WEB'         FROM customers WHERE email='maria.garcia@example.com';
+INSERT INTO orders (customer_id, order_status, order_ts, channel)
+SELECT customer_id, 'CANCELLED','2025-12-04 09:45:00', 'STORE'       FROM customers WHERE email='fatima.khan@example.com';
+INSERT INTO orders (customer_id, order_status, order_ts, channel)
+SELECT customer_id, 'PAID',     '2025-12-05 14:20:00', 'MARKETPLACE' FROM customers WHERE email='john.smith@example.com';
+
+-- For convenience, capture order_ids in variables (works in CLI & Workbench)
+SET @order_sai   := (SELECT o.order_id FROM orders o JOIN customers c ON c.customer_id=o.customer_id WHERE c.email='sai.kiran@example.com'   ORDER BY o.order_ts LIMIT 1);
+SET @order_alex  := (SELECT o.order_id FROM orders o JOIN customers c ON c.customer_id=o.customer_id WHERE c.email='alex.lee@example.com'  ORDER BY o.order_ts LIMIT 1);
+SET @order_maria := (SELECT o.order_id FROM orders o JOIN customers c ON c.customer_id=o.customer_id WHERE c.email='maria.garcia@example.com' ORDER BY o.order_ts LIMIT 1);
+SET @order_fatima:= (SELECT o.order_id FROM orders o JOIN customers c ON c.customer_id=o.customer_id WHERE c.email='fatima.khan@example.com' ORDER BY o.order_ts LIMIT 1);
+SET @order_john  := (SELECT o.order_id FROM orders o JOIN customers c ON c.customer_id=o.customer_id WHERE c.email='john.smith@example.com' ORDER BY o.order_ts LIMIT 1);
+
+-- ==========================
+-- 6) Order Items (FK -> orders, products)
+-- ==========================
+-- Use product_id looked up by SKU to keep referential integrity
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+SELECT @order_sai,  p.product_id, 1, 69999.00 FROM products p WHERE p.product_sku='ELEC-IPH-14';
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+SELECT @order_sai,  p.product_id, 2,   499.00 FROM products p WHERE p.product_sku='FASH-TSH-XL';
+
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+SELECT @order_alex, p.product_id, 1,  3499.00 FROM products p WHERE p.product_sku='HOME-MIX-500';
+
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+SELECT @order_maria,p.product_id, 3,   799.00 FROM products p WHERE p.product_sku='BOOK-DSA-01';
+
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+SELECT @order_fatima,p.product_id,1, 45999.00 FROM products p WHERE p.product_sku='ELEC-HP-LAP';
+
+INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+SELECT @order_john, p.product_id, 1,  1299.00 FROM products p WHERE p.product_sku='FASH-JNS-32';
+
+-- ==========================
+-- 7) Payments (FK -> orders)
+-- ==========================
+INSERT INTO payments (order_id, payment_ts, amount, method, status) VALUES
+(@order_alex,  '2025-12-02 12:05:00',  3499.00, 'CARD',       'SUCCESS'),
+(@order_maria, '2025-12-03 19:00:00',  2397.00, 'UPI',        'SUCCESS'),
+(@order_sai,   '2025-12-01 10:20:00', 70997.00, 'NETBANKING', 'FAILED'),
+(@order_john,  '2025-12-05 14:30:00',  1299.00, 'COD',        'SUCCESS');
+
+-- ==========================
+-- 8) Event Log (JSON metadata)
+-- ==========================
+INSERT INTO event_log (customer_id, event_type, event_ts, metadata)
+SELECT c.customer_id, 'PAGE_VIEW', '2025-12-01 10:00:00', JSON_OBJECT('page','/home')
+FROM customers c WHERE c.email='sai.kiran@example.com';
+
+INSERT INTO event_log (customer_id, event_type, event_ts, metadata)
+SELECT c.customer_id, 'ADD_TO_CART', '2025-12-02 11:45:00', JSON_OBJECT('sku','HOME-MIX-500')
+FROM customers c WHERE c.email='alex.lee@example.com';
+
+INSERT INTO event_log (customer_id, event_type, event_ts, metadata)
+SELECT c.customer_id, 'CHECKOUT_START', '2025-12-03 18:20:00', JSON_OBJECT('cart_total',2397)
+FROM customers c WHERE c.email='maria.garcia@example.com';
+
+-- ==========================
+-- 9) Staging tables (raw batch)
+-- ==========================
+-- Use a demo batch id
+SET @batch_id := 'BATCH-2025-12-01';
+
+INSERT INTO stg_orders_raw (batch_id, order_external_id, customer_email, order_status, order_ts, channel) VALUES
+(@batch_id, 'EXT-1001','sai.kiran@example.com','NEW',     '2025-12-01 10:15:00','WEB'),
+(@batch_id, 'EXT-1002','alex.lee@example.com','PAID',    '2025-12-02 12:00:00','MOBILE'),
+(@batch_id, 'EXT-1003','maria.garcia@example.com','SHIPPED','2025-12-03 18:30:00','WEB');
+
+INSERT INTO stg_order_items_raw (batch_id, order_external_id, product_sku, quantity, unit_price) VALUES
+(@batch_id,'EXT-1001','ELEC-IPH-14',1,69999.00),
+(@batch_id,'EXT-1001','FASH-TSH-XL',2,  499.00),
+(@batch_id,'EXT-1002','HOME-MIX-500',1, 3499.00),
+(@batch_id,'EXT-1003','BOOK-DSA-01',3,  799.00);
+
+
+Data verify:
+
+
+-- Quick checks
+SELECT COUNT(*) AS categories FROM categories;
+SELECT COUNT(*) AS products   FROM products;
+SELECT COUNT(*) AS customers  FROM customers;
+SELECT COUNT(*) AS orders     FROM orders;
+SELECT COUNT(*) AS items      FROM order_items;
+SELECT COUNT(*) AS payments   FROM payments;
+
+-- Order totals by order
+SELECT o.order_id,
+       c.email,
+       SUM(oi.quantity * oi.unit_price) AS order_total
+FROM orders o
+JOIN customers c ON c.customer_id = o.customer_id
+JOIN order_items oi ON oi.order_id = o.order_id
+GROUP BY o.order_id, c.email
+ORDER BY order_total DESC;
+
+-- Daily sales view (uses your v_daily_sales_mysql)
+SELECT * FROM v_daily_sales_mysql ORDER BY order_date DESC;
+
+-- Inventory snapshot
+SELECT p.product_sku, p.product_name, i.on_hand, i.safety_stock
+FROM products p JOIN inventory i ON i.product_id = p.product_id
+ORDER BY p.product_sku;
+
+-- Events with JSON fields
+SELECT event_type,
+       JSON_EXTRACT(metadata, '$.page') AS page,
+       JSON_EXTRACT(metadata, '$.sku')  AS sku,
+       JSON_EXTRACT(metadata, '$.cart_total') AS cart_total,
+       event_ts
+FROM event_log
+ORDER BY event_ts;
