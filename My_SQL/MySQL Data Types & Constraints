@@ -1,0 +1,215 @@
+
+# MySQL Data Types & Constraints — Quick Reference
+
+This document explains:
+- `BIGINT` and signed vs unsigned
+- `NOT NULL`, `DEFAULT`, and `ENUM`
+- Foreign keys (`FOREIGN KEY`), `REFERENCES`, and naming constraints with `CONSTRAINT`
+- Practical examples and best practices
+
+---
+
+## 1) `BIGINT` in MySQL
+
+**What it is:** A 64-bit integer type for very large whole numbers.
+
+- **Size:** 8 bytes
+- **Signed range (default):**  
+  `-9,223,372,036,854,775,808` to `9,223,372,036,854,775,807`
+- **UNSIGNED range:**  
+  `0` to `18,446,744,073,709,551,615`
+- **Common uses:** Large IDs (`AUTO_INCREMENT`), high-volume counters, timestamps in micro/milliseconds.
+
+> **Note:** In MySQL 8.0, display width (e.g., `BIGINT(20)`) is deprecated/ignored for integers, except with `ZEROFILL`. It **does not** limit value range.
+
+**Example:**
+```sql
+CREATE TABLE accounts (
+  account_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name       VARCHAR(100) NOT NULL
+);
+```
+
+---
+
+## 2) Signed vs Unsigned (for integer types)
+
+**SIGNED (default)**
+- Allows negative and positive numbers.
+- Example range for `BIGINT SIGNED`:
+  ```
+  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+  ```
+
+**UNSIGNED**
+- Only non-negative (zero and positive) values.
+- Doubles the max positive range:
+  ```
+  0 to 18,446,744,073,709,551,615
+  ```
+
+**When to choose:**
+- Use **UNSIGNED** for identifiers, counters, quantities (never negative).
+- Use **SIGNED** if negatives are valid (temperatures, balance deltas, etc.).
+
+**Example:**
+```sql
+CREATE TABLE example (
+  signed_val   BIGINT,            -- can be negative or positive
+  unsigned_val BIGINT UNSIGNED    -- zero or positive only
+);
+```
+
+---
+
+## 3) Column Constraints: `NOT NULL`, `DEFAULT`, `ENUM`
+
+### `NOT NULL`
+Ensures the column **must have a value** (cannot be `NULL`).
+
+```sql
+CREATE TABLE users (
+  id   INT NOT NULL,
+  name VARCHAR(50) NOT NULL
+);
+```
+
+### `DEFAULT`
+Provides a **fallback value** when none is supplied during `INSERT`.
+
+```sql
+CREATE TABLE products (
+  id     INT AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR(20) NOT NULL DEFAULT 'active'
+);
+```
+
+### `ENUM`
+Restricts a string column to a **predefined set of values**.
+
+```sql
+CREATE TABLE orders (
+  id           INT AUTO_INCREMENT PRIMARY KEY,
+  order_status ENUM('pending','shipped','delivered','cancelled')
+               NOT NULL DEFAULT 'pending'
+);
+```
+
+**Tips:**
+- `ENUM` is convenient but consider a **lookup table** if the list changes often or needs translations.
+- For money, prefer `DECIMAL(p, s)` (e.g., `DECIMAL(19,4)`) unless you store minor units (like cents) as integers.
+
+---
+
+## 4) Foreign Keys, `CONSTRAINT` Names, and `REFERENCES`
+
+A **foreign key** enforces **referential integrity** between two tables.
+
+### Meaning of parts
+```sql
+CONSTRAINT fk_orders_customer
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+```
+- `CONSTRAINT fk_orders_customer` → **Name** of the constraint (your custom label).
+- `FOREIGN KEY (customer_id)` → Column(s) in the **child** table.
+- `REFERENCES customers(customer_id)` → Target **parent** table and column.
+
+### Why name constraints?
+- Easier maintenance: drop/alter by name.
+- Clear documentation of relationships.
+- MySQL auto-names like `orders_ibfk_1` if you don’t specify; custom names are easier to remember.
+
+**Dropping by name:**
+```sql
+ALTER TABLE orders DROP FOREIGN KEY fk_orders_customer;
+```
+
+### Referential actions
+Control behavior when parent rows are updated/deleted.
+
+- `ON DELETE RESTRICT` / `NO ACTION` (default): Block if children exist.
+- `ON DELETE CASCADE`: Delete children automatically.
+- `ON DELETE SET NULL`: Set FK to `NULL` (column must allow `NULL`).
+- `ON UPDATE CASCADE`: Propagate key changes to children.
+
+**Example with actions:**
+```sql
+ALTER TABLE orders
+ADD CONSTRAINT fk_orders_customer
+FOREIGN KEY (customer_id)
+REFERENCES customers(customer_id)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+```
+
+---
+
+## 5) Full Example Schema (putting it all together)
+
+```sql
+-- Parent table
+CREATE TABLE customers (
+  customer_id BIGINT UNSIGNED PRIMARY KEY,
+  name        VARCHAR(100) NOT NULL,
+  email       VARCHAR(255) UNIQUE,         -- example of UNIQUE constraint
+  created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Child table referencing customers
+CREATE TABLE orders (
+  order_id     BIGINT UNSIGNED PRIMARY KEY,
+  customer_id  BIGINT UNSIGNED NOT NULL,
+  order_date   DATE NOT NULL,
+  order_status ENUM('pending','shipped','delivered','cancelled')
+               NOT NULL DEFAULT 'pending',
+  -- Foreign key with a clear name and actions
+  CONSTRAINT fk_orders_customer
+    FOREIGN KEY (customer_id)
+    REFERENCES customers(customer_id)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- Another table showcasing CHECK (MySQL 8.0+ enforces CHECK)
+CREATE TABLE employees (
+  emp_id        INT PRIMARY KEY,
+  name          VARCHAR(50) NOT NULL,
+  age           INT CHECK (age >= 18),
+  department_id INT,
+  CONSTRAINT fk_dept
+    FOREIGN KEY (department_id)
+    REFERENCES departments(department_id)
+);
+
+-- Departments to satisfy employees FK (example)
+CREATE TABLE departments (
+  department_id INT PRIMARY KEY,
+  dept_name     VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+```
+
+---
+
+## 6) Best Practices & Gotchas
+
+- **Type & attributes must match** between FK and referenced column (e.g., `BIGINT UNSIGNED` ↔ `BIGINT UNSIGNED`).
+- **Indexes**: Referenced column must be indexed (`PRIMARY KEY` or `UNIQUE`). MySQL will index the FK column if needed.
+- **Storage engine**: Foreign keys are enforced by **InnoDB** (not by MyISAM).
+- **NULL in FK**: `NULL` values are exempt from FK checks (treated as “no relationship”).
+- **Composite keys**: Order and definition must match on both sides:
+  ```sql
+  FOREIGN KEY (customer_id, region_id)
+  REFERENCES customers(customer_id, region_id)
+  ```
+- **Performance**: Larger integer types (`BIGINT`) increase index/storage size; use them only when you expect to exceed `INT` limits.
+
+---
+
+## 7) Quick Cheatsheet
+
+- Use `BIGINT UNSIGNED` for large IDs/counters.
+- Use `NOT NULL` to ensure a value is always present.
+- Use `DEFAULT` to provide sensible fallbacks.
+- Use `ENUM` for small, fixed sets of strings.
+- Name constraints with `CONSTRAINT your_clear_name_here`.
+- Choose `ON DELETE/UPDATE` actions thoughtfully (`RESTRICT`, `CASCADE`, `SET NULL`).
