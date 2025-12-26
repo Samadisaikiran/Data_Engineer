@@ -1,0 +1,154 @@
+
+# MySQL Advanced Queries
+
+## MySQL SELECT Statement
+The SELECT statement is used to select data from a database.
+
+The data returned is stored in a result table, called the result-set.
+
+### SELECT Syntax
+```sql
+SELECT column1, column2, ...
+FROM table_name;
+```
+To select all fields:
+```sql
+SELECT * FROM table_name;
+```
+
+### SELECT Columns Example
+```sql
+SELECT CustomerName, City, Country FROM Customers;
+```
+
+### SELECT * Example
+```sql
+SELECT * FROM Customers;
+```
+
+---
+
+## The MySQL SELECT DISTINCT Statement
+The SELECT DISTINCT statement returns only distinct (different) values.
+
+### SELECT DISTINCT Syntax
+```sql
+SELECT DISTINCT column1, column2, ...
+FROM table_name;
+```
+
+### Examples
+```sql
+-- Without DISTINCT
+SELECT Country FROM Customers;
+
+-- With DISTINCT
+SELECT DISTINCT Country FROM Customers;
+
+-- Count distinct values
+SELECT COUNT(DISTINCT Country) FROM Customers;
+```
+
+---
+
+## MySQL WHERE Clause
+The WHERE clause filters records based on a condition.
+
+### Syntax
+```sql
+SELECT column1, column2, ...
+FROM table_name
+WHERE condition;
+```
+
+### Examples
+```sql
+-- Text comparison
+SELECT * FROM Customers
+WHERE Country = 'Mexico';
+
+-- Numeric comparison
+SELECT * FROM Customers
+WHERE CustomerID = 1;
+```
+
+### Operators in WHERE
+- `=` Equal
+- `>` Greater than
+- `<` Less than
+- `>=` Greater than or equal
+- `<=` Less than or equal
+- `<>` Not equal (or `!=`)
+- `BETWEEN` Between a range
+- `LIKE` Pattern match
+- `IN` Multiple values
+
+---
+
+## MySQL AND, OR, NOT Operators
+Combine conditions using AND, OR, NOT.
+
+### Syntax
+```sql
+-- AND
+SELECT * FROM table_name WHERE condition1 AND condition2;
+
+-- OR
+SELECT * FROM table_name WHERE condition1 OR condition2;
+
+-- NOT
+SELECT * FROM table_name WHERE NOT condition;
+```
+
+### Examples
+```sql
+-- AND Example
+SELECT * FROM Customers
+WHERE Country = 'Germany' AND City = 'Berlin';
+
+-- OR Example
+SELECT * FROM Customers
+WHERE City = 'Berlin' OR City = 'Stuttgart';
+
+-- NOT Example
+SELECT * FROM Customers
+WHERE NOT Country = 'Germany';
+
+-- Combining AND, OR, NOT
+SELECT * FROM Customers
+WHERE Country = 'Germany' AND (City = 'Berlin' OR City = 'Stuttgart');
+
+SELECT * FROM Customers
+WHERE NOT Country = 'Germany' AND NOT Country = 'USA';
+```
+
+---
+
+## MySQL ORDER BY Keyword
+Sort results in ascending or descending order.
+
+### Syntax
+```sql
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+```
+
+### Examples
+```sql
+-- Sort by Country
+SELECT * FROM Customers
+ORDER BY Country;
+
+-- Sort by Country DESC
+SELECT * FROM Customers
+ORDER BY Country DESC;
+
+-- Sort by multiple columns
+SELECT * FROM Customers
+ORDER BY Country, CustomerName;
+
+-- Sort by Country ASC and CustomerName DESC
+SELECT * FROM Customers
+ORDER BY Country ASC, CustomerName DESC;
+```
