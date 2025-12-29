@@ -1,0 +1,191 @@
+# MySQL Learning Notes (Complete Set: Steps 1–4)
+
+---
+
+## 🧑‍💻 Step 1: Understanding Databases and Tables
+
+- **Database** → A container for tables (like a folder).
+- **Table** → Stores data in rows (records) and columns (fields).
+- **Schema** → The structure of a database (tables, columns, relationships).
+
+### Example: Creating a Database
+```sql
+-- Create a new database
+CREATE DATABASE company;
+
+-- Switch to that database
+USE company;
+Example: Creating a Table
+sql
+-- Create a table for employees
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+🧑‍💻 Step 2: Inserting Data
+sql
+-- Insert rows into employees table
+INSERT INTO employees (name, department, salary, hire_date)
+VALUES ('Alice', 'HR', 50000, '2021-05-10'),
+       ('Bob', 'IT', 65000, '2020-03-15'),
+       ('Charlie', 'Finance', 70000, '2019-11-01');
+🧑‍💻 Step 3: Querying Data
+sql
+-- Select all employees
+SELECT * FROM employees;
+
+-- Select specific columns
+SELECT name, salary FROM employees;
+
+-- Filter employees in IT department
+SELECT * FROM employees WHERE department = 'IT';
+
+-- Order employees by salary (highest first)
+SELECT * FROM employees ORDER BY salary DESC;
+✅ Bottom Line
+Databases organize tables.
+
+Tables store structured data.
+
+SQL commands let you create, insert, and query data.
+
+This is the foundation of data engineering: defining schemas, loading data, and retrieving it for analysis.
+
+🧑‍💻 Step 4: Understanding Joins
+Why Joins Matter
+In relational databases, data is normalized (split into multiple tables).
+
+Joins let you combine related data across tables using keys (like customer_id, emp_id).
+
+Without joins, you’d only see isolated pieces of data.
+
+Types of Joins in MySQL
+1. INNER JOIN
+sql
+SELECT c.name, o.order_id, o.amount
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;
+👉 Only customers who have placed orders will appear.
+
+2. LEFT JOIN
+sql
+SELECT c.name, o.order_id, o.amount
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id;
+👉 All customers appear, even those with no orders.
+
+3. RIGHT JOIN
+sql
+SELECT c.name, o.order_id, o.amount
+FROM customers c
+RIGHT JOIN orders o
+ON c.customer_id = o.customer_id;
+👉 All orders appear, even if the customer record is missing.
+
+4. FULL OUTER JOIN (not directly supported in MySQL)
+MySQL doesn’t have a native FULL OUTER JOIN.
+
+You can simulate it using UNION of LEFT JOIN and RIGHT JOIN.
+
+✅ Bottom Line
+INNER JOIN → only matches.
+
+LEFT JOIN → everything from left + matches.
+
+RIGHT JOIN → everything from right + matches.
+
+FULL OUTER JOIN → combine both sides (workaround in MySQL).
+
+🏗️ Example Dataset for Joins
+Create Tables
+sql
+-- Customers table
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    city VARCHAR(50)
+);
+
+-- Orders table
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    amount DECIMAL(10,2),
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+Insert Sample Data
+sql
+-- Insert customers
+INSERT INTO customers (name, city)
+VALUES ('Alice', 'Hyderabad'),
+       ('Bob', 'Delhi'),
+       ('Charlie', 'Mumbai'),
+       ('Diana', 'Hyderabad');
+
+-- Insert orders
+INSERT INTO orders (customer_id, amount, order_date)
+VALUES (1, 250.00, '2023-01-10'),
+       (1, 300.00, '2023-02-15'),
+       (2, 150.00, '2023-03-05'),
+       (4, 500.00, '2023-04-20');
+🧑‍💻 Join Results
+🔗 INNER JOIN
+sql
+SELECT c.name, o.order_id, o.amount
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;
+Result
+
+name	order_id	amount
+Alice	1	250.00
+Alice	2	300.00
+Bob	3	150.00
+Diana	4	500.00
+👉 Only customers with orders appear. Charlie is excluded.
+
+🔗 LEFT JOIN
+sql
+SELECT c.name, o.order_id, o.amount
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id;
+Result
+
+name	order_id	amount
+Alice	1	250.00
+Alice	2	300.00
+Bob	3	150.00
+Charlie	NULL	NULL
+Diana	4	500.00
+👉 All customers appear. Charlie shows up with NULL because he has no orders.
+
+🔗 RIGHT JOIN
+sql
+SELECT c.name, o.order_id, o.amount
+FROM customers c
+RIGHT JOIN orders o
+ON c.customer_id = o.customer_id;
+Result
+
+name	order_id	amount
+Alice	1	250.00
+Alice	2	300.00
+Bob	3	150.00
+Diana	4	500.00
+👉 All orders appear. If there were an order without a matching customer, the name would be NULL.
+
+✅ Final Summary
+INNER JOIN → only matched rows.
+
+LEFT JOIN → all from left + matches.
+
+RIGHT JOIN → all from right + matches.
+
+FULL OUTER JOIN → workaround using UNION.
