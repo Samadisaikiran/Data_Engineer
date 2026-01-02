@@ -1,0 +1,227 @@
+# MySQL, OLTP, OLAP, Fact & Dimension Tables — Complete Notes
+
+---
+
+## 🧑‍💻 Step 1: Databases and Tables
+- **Database** → container for tables (like a folder).
+- **Table** → stores data in rows (records) and columns (fields).
+- **Schema** → structure of a database (tables, columns, relationships).
+
+### Example: Creating a Database and Table
+```sql
+CREATE DATABASE company;
+USE company;
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+🧑‍💻 Step 2: Inserting Data
+sql
+INSERT INTO employees (name, department, salary, hire_date)
+VALUES ('Alice', 'HR', 50000, '2021-05-10'),
+       ('Bob', 'IT', 65000, '2020-03-15'),
+       ('Charlie', 'Finance', 70000, '2019-11-01');
+🧑‍💻 Step 3: Querying Data
+sql
+SELECT * FROM employees;
+SELECT name, salary FROM employees;
+SELECT * FROM employees WHERE department = 'IT';
+SELECT * FROM employees ORDER BY salary DESC;
+✅ Bottom Line: Databases organize tables → tables store structured data → SQL lets you create, insert, and query data.
+
+🧑‍💻 Step 4: Joins
+INNER JOIN → only matches.
+
+LEFT JOIN → everything from left + matches.
+
+RIGHT JOIN → everything from right + matches.
+
+FULL OUTER JOIN → simulated with UNION.
+
+Example Dataset
+sql
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    city VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    amount DECIMAL(10,2),
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+INSERT INTO customers (name, city)
+VALUES ('Alice', 'Hyderabad'),
+       ('Bob', 'Delhi'),
+       ('Charlie', 'Mumbai'),
+       ('Diana', 'Hyderabad');
+
+INSERT INTO orders (customer_id, amount, order_date)
+VALUES (1, 250.00, '2023-01-10'),
+       (1, 300.00, '2023-02-15'),
+       (2, 150.00, '2023-03-05'),
+       (4, 500.00, '2023-04-20');
+Join Results
+INNER JOIN → Alice, Bob, Diana (Charlie excluded).
+
+LEFT JOIN → All customers, Charlie shows NULL.
+
+RIGHT JOIN → All orders, customer name NULL if missing.
+
+🧑‍💻 Step 5: Aggregations
+Functions: COUNT(), SUM(), AVG(), MIN(), MAX().
+
+Examples:
+
+sql
+SELECT COUNT(*) AS total_employees FROM employees;
+SELECT AVG(salary) AS avg_salary FROM employees;
+SELECT department, COUNT(*) AS dept_count FROM employees GROUP BY department;
+SELECT c.name, SUM(o.amount) AS total_spent
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.name;
+✅ Bottom Line: Aggregations summarize data; GROUP BY splits results into categories.
+
+📊 Fact vs Dimension Tables
+Fact tables: Store measurable events (sales, orders, revenue).
+
+Dimension tables: Store descriptive context (customer info, product details, date, store).
+
+Star schema: Fact table in the center, dimensions around it.
+
+Example
+Fact_Sales: sale_id, date_key, customer_key, product_key, store_key, sales_amount, quantity.
+
+Dim_Customer: customer_id, name, city, segment.
+
+Dim_Product: product_id, product_name, category, brand.
+
+Dim_Date: date_key, day, month, year, holiday_flag.
+
+Dim_Store: store_key, store_name, region, manager.
+
+ASCII Diagram (Star Schema)
+Code
+                  +-------------------+
+                  |   Dim_Date        |
+                  |-------------------|
+                  | date_key          |
+                  | day               |
+                  | month             |
+                  | year              |
+                  | holiday_flag      |
+                  +-------------------+
+                          |
+                          |
++-------------------+     |     +-------------------+
+|   Dim_Customer    |     |     |   Dim_Product     |
+|-------------------|     |     |-------------------|
+| customer_key      |-----+-----| product_key       |
+| name              |           | product_name      |
+| city              |           | category          |
+| segment           |           | brand             |
++-------------------+           +-------------------+
+                          |
+                          |
+                  +-------------------+
+                  |   Fact_Sales      |
+                  |-------------------|
+                  | sale_id           |
+                  | date_key          |
+                  | customer_key      |
+                  | product_key       |
+                  | store_key         |
+                  | sales_amount      |
+                  | quantity          |
+                  +-------------------+
+                          |
+                          |
+                  +-------------------+
+                  |   Dim_Store       |
+                  |-------------------|
+                  | store_key         |
+                  | store_name        |
+                  | region            |
+                  | manager           |
+                  +-------------------+
+🔗 OLTP vs OLAP
+Feature	OLTP (Database)	OLAP (Data Warehouse)
+Purpose	Transactions	Analytics & Reporting
+Schema	Normalized	Dimensional (Fact/Dim)
+Example	MySQL, Postgres	Snowflake, BigQuery
+Query type	Simple inserts/updates	Complex joins, aggregations
+OLTP: Online Transaction Processing → fast, concurrent, normalized tables for day-to-day operations.
+
+OLAP: Online Analytical Processing → historical, aggregated, dimensional modeling for BI and ML.
+
+ETL/ELT pipelines: Connect OLTP → OLAP.
+
+🏗️ Data Engineering Pipeline
+OLTP Database (MySQL/Postgres): Raw transactional data (customers, orders, payments).
+
+ETL/ELT Process: Extract, Transform, Load using tools like Airflow, dbt, Spark.
+
+OLAP Data Warehouse (Snowflake/BigQuery): Stores fact and dimension tables.
+
+Analytics Layer: Dashboards, BI, ML features built on top of fact/dim schema.
+
+ASCII Diagram (Pipeline)
+Code
+   +---------------------------+
+   |        OLTP Layer         |
+   |  (Transactional Database) |
+   |---------------------------|
+   | MySQL / PostgreSQL / SQL  |
+   | Tables:                   |
+   | - customers               |
+   | - orders                  |
+   | - payments                |
+   +---------------------------+
+               |
+               |  Extract
+               v
+   +---------------------------+
+   |   ETL / ELT Pipelines     |
+   |---------------------------|
+   | Tools: Airflow, dbt,      |
+   | Spark, Fivetran, etc.     |
+   | Steps:                    |
+   | - Extract raw data        |
+   | - Transform (clean,       |
+   |   aggregate, enrich)      |
+   | - Load into warehouse     |
+   +---------------------------+
+               |
+               v
+   +---------------------------+
+   |        OLAP Layer         |
+   |   (Data Warehouse)        |
+   |---------------------------|
+   | Snowflake / BigQuery /    |
+   | Redshift / Synapse        |
+   | Tables:                   |
+   | - Fact_Sales              |
+   | - Dim_Customer            |
+   | - Dim_Product             |
+   | - Dim_Date                |
+   | - Dim_Store               |
+   +---------------------------+
+✅ Final Summary
+OLTP = transactional databases (fast, normalized, real-time).
+
+OLAP = analytical warehouses (historical, aggregated, dimensional).
+
+Fact tables = numbers (measures).
+
+Dimension tables = context (descriptions).
+
+ETL pipelines connect OLTP → OLAP, enabling analytics and decision-making.
