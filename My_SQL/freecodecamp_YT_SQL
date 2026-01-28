@@ -1,0 +1,109 @@
+what is sql?
+*sql is structured query language used to interact with RDBMS(Relational database management system).
+*used to retrievw information from the DB(Database)
+
+
+RDBMS(Relational database managamanet system)?
+*It is a software application which we are using to create and manage databases.
+*one of the popular software application is MySQL.
+*MySQL is software application which we are creating and managing databases with help SQL language.
+*ex: MySQL,oracle,snowflake etc
+
+NRDBMS(non-relational database management system)?
+*It is also a software application which we are creating and managing databases with NO SQL .
+*Basically in this NRDBMS the data is stored in diff formates like "csv", graphs,txt etc.
+*Here NOSQL which means we are not using SQL language to retrievw data.
+eg:mongo DB,postgress SQL etc.
+
+Database?
+*In general DB Store related information is called database
+eg: shopping list/cart , Amazone.com - stores product info, price , quantity,userdata, payment info etc.
+*Database consists of tables in technical.
+
+MySQL?
+*MySQL is a database management system(RDBMS) which used to create and manage databases.
+*reliable,scalable,accuracy,security ,improt/export, user management.
+
+SQL Types? - 4 types
+Data query language(DQL):
+  *used to retievw information from the database.
+
+Data Definition language(DDL):
+  *used to create the databases.
+
+Data manipluation language(DML):
+  *used to manipluate data.
+
+Data control language(DCL):
+*used to control the user permissions and data.
+
+transcactional control language(TCL):
+  *used to manage transcational transcactions
+
+
+table?
+*a table consists of rows and columns
+
+row?
+*individual entry of the info
+
+column?
+*attribute - entry of the invidual.
+
+Datatypes? - To control the entry of data type/to represent the type of data.
+*INT() - whole numbers - to represent Number type eg: Empl_ID
+*VARCHAR(10) - represent the data type as a string max of 10 characters which means any string data should be in limit of 10 characters only .it depends of requirement
+*DATE - entry type should be date format "YYYY-MM-DD"
+*TIMESTAMP - entry should be date with timestamp "YYYY-MM-DD HH:MM:SS"
+*BLOB - Binary large object type.
+*DECIMAL(3,2) - the type of the data should be decimal - the decimal values should be 2 digits after the 3 integer values eg: 325.25
+
+
+constraints?
+*UNIQUE - The data in the column should be unique with no duplicates.
+*NOT NULL - To avoid NULL values
+*DEFAULT - when the entry is not done it should be value of default value.   eg : DEFAULT "active"
+
+
+
+Primary key?
+*unique value to represent each entry of the row.
+*should not be null and no duplicates.
+eg:emp_id
+
+foreign key?
+*connects between 2 tables
+*the primary key of one table be foreign key of another table.
+
+unique key?
+*unique value to prevent duplicates entries of the column
+*eg: email_id,phone_number,SSN
+
+surrogate key?
+*generate by system
+*has no business meaning.
+*uniquely identify each entry of the data.
+eg:order_id
+
+Natural key?
+*no system generated key.
+*has business meaning.
+*generally available in real time
+eg:email_id, phone_number
+
+composite key?
+*combination of 2 columns as a unique identifier of the table
+*if there is no unique value in table by a single column . we may combine 2 columns to identify the record of the table
+eg:primary key(student_id,course_id) - a single student can enroll multiple courses and a single course can be enrolled by multiple students.
+                                    - But no same student can enroll same course twice. Here, with student_id or course_id alone is not enough to identify unique record ,
+                                    but with the help of the both columns we can easily represent unique value.
+
+
+
+
+
+
+
+
+
+
