@@ -24,7 +24,7 @@ MySQL?
 *MySQL is a database management system(RDBMS) which used to create and manage databases.
 *reliable,scalable,accuracy,security ,improt/export, user management.
 
-SQL Types? - 4 types
+SQL command Types? - 4 types
 Data query language(DQL):
   *used to retievw information from the database.
 
@@ -63,6 +63,7 @@ constraints?
 *UNIQUE - The data in the column should be unique with no duplicates.
 *NOT NULL - To avoid NULL values
 *DEFAULT - when the entry is not done it should be value of default value.   eg : DEFAULT "active"
+*AUTO_INCREMENT - to assign number as sequence automatically without specifically define them.
 
 
 
@@ -97,6 +98,58 @@ composite key?
 eg:primary key(student_id,course_id) - a single student can enroll multiple courses and a single course can be enrolled by multiple students.
                                     - But no same student can enroll same course twice. Here, with student_id or course_id alone is not enough to identify unique record ,
                                     but with the help of the both columns we can easily represent unique value.
+
+query?
+*a set of instructions to retrievw data from DB.
+
+create/update/delete a table?
+*we can create a table with create command and with delete it with delete tablename and update it with update command.
+
+Note: Always try to write SQL code in CAPITALS letters.
+
+Create a DB?
+
+CREATE DATABASE EMPLOYEE_DATA;
+
+USE EMPLOYEE_DATA;
+
+CREATE TABLE EMPLOYEE(
+EMP_ID INT AUTO_INCREMENT,
+EMPLOYEE_NAME VARCHAR(30),
+PHONE_NUMBER VARCHAR(10),
+ADDRESS VARCHAR(50),
+DEPARTMENT VARCHAR(10),
+PRIMARY KEY(EMP_ID),
+);
+
+Above is the sample code for create database and table .
+*defined data type
+*define primary key
+*define max characters in string varchar
+
+with the help of above DB we retrievw sample data from DB employee_data.
+
+ex: 
+*SELECT * FROM EMPLOYEE;  - select all data from table employee
+*SELECT EMP_ID ,DEPARTMENT FROM EMPLOYEE;   - retrievw only required columns
+**ALTER TABLE EMPLOYEE ADD DEPT_ID INT;  - it will add the new column dept_id in the existing table employee.
+*DELETE ADDRESS FROM EMPLOYEE;   - delete address column from employee
+*DROP EMPLOYEE;  - drop entire table employee
+*UPDATE EMPLOYEE_NAME='JOHN" WHERE EMP_ID=1
+
+comparison operators?
+* =
+* <
+* >
+* <=
+* >=
+* AND
+* OR
+* BETWEEEN 
+* IN   - Used for multiple entries at a single query
+
+
+
 
 
 
