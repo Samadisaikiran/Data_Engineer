@@ -148,7 +148,46 @@ comparison operators?
 * BETWEEEN 
 * IN   - Used for multiple entries at a single query
 
+Commands?
+*ORDER BY - it prints data either ascending order or descending order. By default it will print asc order
+*LIMIT - limits printing of rows...eg:LIMIT 3 - it will print upto 3 rows only.
+*AS - also used as alias ,temporarly change column name. 
+*DISTINCT - it will print the all different type of data in the columns. Eg: select distinct sex from employee;   - it will print "M" and "F" only and doesn't print allrecords with M and F.
 
+functions? - Aggregators - these are used to display data with the help of functions.
+* SUM() - sum of total records in a table- applicale for integers only
+* COUNT() - used to tell how many records in a table.
+* AVG() - average of all records in a column especially applicable for integer values.
+* GROUP BY - it will diferentiate records respecctive categories which means divide records as per their group.
+* UNION - combine of 2 or more tables data in a single query.
+
+select count(sex) , sex from employee
+group by sex;
+
+select sum(total_sales) , client_id from client
+group by client_id;
+
+select avg(total_sales) from client;
+
+select emp_name from employee
+UNION
+select client_name from client
+UNION
+select supplier_name from supplier;    -it will dispaly a list of data from 3 tables employee,client and supplier.
+
+
+wildcards? - commands
+* LIKE - used to find pattern of the record/data/entry.
+* % - used to print the data as a pattern - Any no.of characters be there before and after the desired data. it wil dispaly all data where it macthes the respective "%" defined pattern.
+  eg: select * from employee
+      where emp_name LIKE "%John%";
+  it will print all records wherever the entries is included as "john" - it doesn't matter weather any no.of characters are there before and after of the name john.
+* _ - underscore used to print as a pattern ,but it represents exact no.of characters before and after the desired record.
+  eg: select * from employee
+      where emp_name LIKE "_John_" - means it prints the records with a single character before and after of the john.
+
+select * from employee
+where emp_name LIKE "__john%" - it displays all records with exact charecters before of the john and any number of characters afetr john name .
 
 
 
