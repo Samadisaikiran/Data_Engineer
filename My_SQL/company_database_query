@@ -81,6 +81,8 @@ INSERT INTO employee VALUES(106, 'Josh', 'Porter', '1969-09-05', 'M', 78000, 100
 
 INSERT INTO branch VALUES(3, 'Stamford', 106, '1998-02-13');
 
+INSERT INTO branch VALUES(4, "Buffalo", NULL, NULL);
+
 UPDATE employee
 SET branch_id = 3
 WHERE emp_id = 106;
