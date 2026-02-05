@@ -190,6 +190,75 @@ select * from employee
 where emp_name LIKE "__john%" - it displays all records with exact charecters before of the john and any number of characters afetr john name .
 
 
+schema?
+*In general blueprint of the database and tables.
+*table structure ,datatype,value,rows and columns etc
+*it isvery usefull if we know schema bcz later on we can view,modify and analyze the schema if required
+
+delete?
+*delete the particular rows /records.
+*can revert if available in transcaction
+*table schema will be available only it will delete the records in the table.
+*table structure is not modified
+eg: delete from table_name
+    where emp_id= 102;
+
+drop?
+*drop the entire table
+*used when there isno requirement with the table
+*schema also got deleted
+*table structure will be deleted if we drop the table.
+eg: drop table_name;
+
+
+joins?
+*The joins are basically combine of two table rows.
+*Joins can be done as reference with the comman column in the both tables.
+Types:
+1)inner join : Returns the common rows in both tables. By default the inner join will be executed if we don't specify join type.
+2)left join : returns the all rows from left table and common rows from the right table. unmatched columns will return as "NULL"
+3)right join : returns the all rows from the right table and common rows from the left table.
+4)full outer join : return all rows from both tables and unmatched rows as well ,regardless of matched rows or not.
+
+triggers?
+*A trigger is an database object that automatically executes a block of sql code when a specific events occurs on atable or view.
+*trigerrs are the query which we can executed automatically in database.
+*basically used when there are any events are done in the tables.
+*it sipmly called as automation in the database for the events
+
+eg syntax:
+
+create trigger trigger_name {before|after} {insert|update|delete}
+on table_name
+for each row
+begin
+    -----sql statement----
+end;
+
+
+er diagram(Entity relationship diagram)?
+*Visual representation of a database structure that shows how data is organized and how diff pieces of data are related to each other.
+*this should be helpful before creating a database to understand what are the table_names and data types and how the relation is defined b/w tables.
+in this er dig we have:
+1)entity   - which is also called table_names    -  represented as rectangle
+2)attributes - the columns in the tables (primary,derived,simple attribute) - represented as ovals
+3)relationship - refer by primary and foreign keys - represented with diamond symbol 
+4)cardinality - one - one ,one-many and many - many relationship - representes as 1:1, 1:N, N:M
+5)weak entity - it cannot identified by its own attributes - so we can identify with the help of parent primary key which is a foreign key in the table or else combination of keys.- represented as double rectangle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
