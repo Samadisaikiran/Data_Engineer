@@ -1,0 +1,3 @@
+Metadata - Metadata is nothing but Information that describes data and how it is stored, accessed, and secured. 
+           In SAS: Centralized information used to manage users, data, reports, and programs.
+stored process : A SAS Stored Process is a server-side SAS program that runs using user-provided inputs (prompts) to generate dynamic outputs like reports or files.
