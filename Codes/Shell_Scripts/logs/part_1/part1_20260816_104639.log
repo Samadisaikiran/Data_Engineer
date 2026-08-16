@@ -1,0 +1,7 @@
+[2026-08-16 10:46:40] ================================================
+[2026-08-16 10:46:40] Part 1 Deployment Script Started
+[2026-08-16 10:46:41] ================================================
+[2026-08-16 10:46:41] Step 1: Checking user authorization...
+[2026-08-16 10:46:42] ERROR: Unauthorized user! Current user: CTS+2320404
+[2026-08-16 10:46:42] ERROR: Only authorized_user is authorized to run this script!
+[2026-08-16 10:46:43] Script terminated due to unauthorized access!

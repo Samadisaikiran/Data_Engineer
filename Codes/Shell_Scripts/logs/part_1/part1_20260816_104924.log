@@ -1,0 +1,8 @@
+[2026-08-16 10:49:24] ================================================
+[2026-08-16 10:49:25] Part 1 Deployment Script Started
+[2026-08-16 10:49:25] ================================================
+[2026-08-16 10:49:26] Step 1: Checking user authorization...
+[2026-08-16 10:49:26] SUCCESS: User CTS+2320404 is authorized to proceed!
+[2026-08-16 10:49:27] Step 2: Checking source directory...
+[2026-08-16 10:49:27] ERROR: Source directory not found: /c/Users/2320404/source
+[2026-08-16 10:49:28] Script terminated!

@@ -1,0 +1,26 @@
+[] ================================================
+[] Part 1 Deployment Script Started
+[] ================================================
+[] Step 1: Checking user authorization...
+[] SUCCESS: User CTS+2320404 is authorized to proceed!
+[] Step 2: Checking source directory...
+[] SUCCESS: Source directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source
+[] Step 3: Checking source file...
+[] SUCCESS: Source file exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source/sample_file_1.day
+[] Step 4: Checking target directory...
+[] SUCCESS: Target directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target
+[] Step 5: Checking target file before removal...
+[] SUCCESS: Target file found: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[] Proceeding to remove target file...
+[] SUCCESS: Target file removed successfully!
+[] Step 6: Copying file from source to target...
+[] SUCCESS: File copied successfully!
+[] From: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source/sample_file_1.day
+[] To:   /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[] Step 7: Verifying file placement...
+[] SUCCESS: File verified in target location!
+[] File: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 16 12:36 /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[] ================================================
+[] Part 1 Deployment Completed Successfully!
+[] ================================================

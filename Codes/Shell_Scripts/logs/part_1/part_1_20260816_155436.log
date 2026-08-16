@@ -1,0 +1,28 @@
+[2026-08-16 15:54:37 IST] ================================================
+[2026-08-16 15:54:38 IST] Part 1 Deployment Script Started
+[2026-08-16 15:54:38 IST] ================================================
+[2026-08-16 15:54:38 IST] Step 1: Checking user authorization...
+[2026-08-16 15:54:39 IST] SUCCESS: User CTS+2320404 is authorized to proceed!
+[2026-08-16 15:54:39 IST] Step 2: Checking source directory...
+[2026-08-16 15:54:40 IST] SUCCESS: Source directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source
+[2026-08-16 15:54:40 IST] Step 3: Checking source file...
+[2026-08-16 15:54:40 IST] SUCCESS: Source file exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source/sample_file_1.day
+[2026-08-16 15:54:41 IST] Step 4: Checking target directory...
+[2026-08-16 15:54:41 IST] SUCCESS: Target directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target
+[2026-08-16 15:54:41 IST] Step 5: Checking target file before removal...
+[2026-08-16 15:54:42 IST] SUCCESS: Target file found: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[2026-08-16 15:54:42 IST] Proceeding to remove sample_file_1.day file...
+[2026-08-16 15:54:43 IST] SUCCESS: sample_file_1.day file removed successfully!
+[2026-08-16 15:54:43 IST] Step 6: Copying file from source to target...
+[2026-08-16 15:54:44 IST] SUCCESS: sample_file_1.day File copied successfully!
+[2026-08-16 15:54:44 IST] From: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source/sample_file_1.day
+[2026-08-16 15:54:44 IST] To:   /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[2026-08-16 15:54:45 IST] Step 7: Verifying file placement...
+[2026-08-16 15:54:45 IST] SUCCESS: sample_file_1.day File verified successfully after copy!
+[2026-08-16 15:54:45 IST] SUCCESS: sample_file_1.day File verified in /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target location!
+[2026-08-16 15:54:46 IST] File: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 16 15:54 /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[2026-08-16 15:54:46 IST] ================================================
+[2026-08-16 15:54:47 IST] Part 1 Deployment Completed Successfully!
+[2026-08-16 15:54:47 IST] ================================================
+[2026-08-16 15:54:48 IST] For more details, check the log file: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//logs/part_1/part_1_20260816_155436.log

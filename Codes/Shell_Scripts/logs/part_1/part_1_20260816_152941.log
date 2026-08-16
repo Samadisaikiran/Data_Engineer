@@ -1,0 +1,26 @@
+[2026-08-16 15:29:41 IST] ================================================
+[2026-08-16 15:29:42 IST] Part 1 Deployment Script Started
+[2026-08-16 15:29:42 IST] ================================================
+[2026-08-16 15:29:42 IST] Step 1: Checking user authorization...
+[2026-08-16 15:29:43 IST] SUCCESS: User CTS+2320404 is authorized to proceed!
+[2026-08-16 15:29:43 IST] Step 2: Checking source directory...
+[2026-08-16 15:29:43 IST] SUCCESS: Source directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source
+[2026-08-16 15:29:44 IST] Step 3: Checking source file...
+[2026-08-16 15:29:44 IST] SUCCESS: Source file exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source/sample_file_1.day
+[2026-08-16 15:29:44 IST] Step 4: Checking target directory...
+[2026-08-16 15:29:45 IST] SUCCESS: Target directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target
+[2026-08-16 15:29:45 IST] Step 5: Checking target file before removal...
+[2026-08-16 15:29:45 IST] SUCCESS: Target file found: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[2026-08-16 15:29:46 IST] Proceeding to remove target file...
+[2026-08-16 15:29:46 IST] SUCCESS: Target file removed successfully!
+[2026-08-16 15:29:47 IST] Step 6: Copying file from source to target...
+[2026-08-16 15:29:47 IST] SUCCESS: File copied successfully!
+[2026-08-16 15:29:48 IST] From: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//source/sample_file_1.day
+[2026-08-16 15:29:48 IST] To:   /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[2026-08-16 15:29:48 IST] Step 7: Verifying file placement...
+[2026-08-16 15:29:48 IST] SUCCESS: File verified in target location!
+[2026-08-16 15:29:49 IST] File: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 16 15:29 /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts//target/sample_file_1.day
+[2026-08-16 15:29:50 IST] ================================================
+[2026-08-16 15:29:50 IST] Part 1 Deployment Completed Successfully!
+[2026-08-16 15:29:50 IST] ================================================
