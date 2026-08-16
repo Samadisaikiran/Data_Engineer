@@ -1,0 +1,58 @@
+[2026-08-17 00:23:19] IST ================================================
+[2026-08-17 00:23:19] IST Part 2 Deployment Script Started
+[2026-08-17 00:23:19] IST ================================================
+[(date '+%Y-%m-%d %H:%M:%S')] IST Step 1: Checking user authorization...
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: User CTS+2320404 is authorized!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Step 2: Checking source directory...
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: Source directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/source
+[(date '+%Y-%m-%d %H:%M:%S')] IST Step 3: Checking target directory...
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: Target directory exists: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/target
+[(date '+%Y-%m-%d %H:%M:%S')] IST Step 4: Starting File 2 operation...
+[(date '+%Y-%m-%d %H:%M:%S')] IST ------------------------------------------------
+[(date '+%Y-%m-%d %H:%M:%S')] IST Processing File 2: sample_file_2.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST ------------------------------------------------
+[(date '+%Y-%m-%d %H:%M:%S')] IST Checking source file 2...
+[2026-08-17 00:23:20] IST SUCCESS: sample_file_2.day file found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: Source sample_file_2.day file 2 found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Checking target file 2...
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: sample_file_2.day file found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: Target sample_file_2.day file 2 found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Removing sample_file_2.day file 2...
+[2026-08-17 00:23:21] IST SUCCESS: sample_file_2.day file removed!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Copying sample_file_2.day file to target...
+[2026-08-17 00:23:22] IST SUCCESS: sample_file_2.day copied successfully!
+[(date '+%Y-%m-%d %H:%M:%S')] IST From: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/source/sample_file_2.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST To:   /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/target/sample_file_2.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST Verifying file sample_file_2.day placement...
+[2026-08-17 00:23:22] IST SUCCESS: sample_file_2.day File verified successfully after copy!
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 17 00:23 /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/target/sample_file_2.day
+[2026-08-17 00:23:23] IST .....
+[(date '+%Y-%m-%d %H:%M:%S')] IST Step 5: Starting File 3 operation...
+[(date '+%Y-%m-%d %H:%M:%S')] IST ------------------------------------------------
+[(date '+%Y-%m-%d %H:%M:%S')] IST Processing File 3: sample_file_3.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST ------------------------------------------------
+[(date '+%Y-%m-%d %H:%M:%S')] IST Checking source file 3...
+[2026-08-17 00:23:23] IST SUCCESS: sample_file_3.day file found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: Source sample_file_3.day file 3 found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Checking target file 3...
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: sample_file_3.day file found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST SUCCESS: Target sample_file_3.day file 3 found!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Removing sample_file_3.day file 3...
+[2026-08-17 00:23:24] IST SUCCESS: sample_file_3.day file removed!
+[(date '+%Y-%m-%d %H:%M:%S')] IST Copying sample_file_3.day file to target...
+[2026-08-17 00:23:25] IST SUCCESS: sample_file_3.day copied successfully!
+[(date '+%Y-%m-%d %H:%M:%S')] IST From: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/source/sample_file_3.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST To:   /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/target/sample_file_3.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST Verifying file sample_file_3.day placement...
+[2026-08-17 00:23:25] IST SUCCESS: sample_file_3.day File verified successfully after copy!
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 17 00:23 /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/target/sample_file_3.day
+[(date '+%Y-%m-%d %H:%M:%S')] IST Step 6: Final verification of all files...
+[2026-08-17 00:23:26] IST SUCCESS: All files verified Successfully!
+total 0
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 17 00:23 sample_file_1.day
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 17 00:23 sample_file_2.day
+-rw-r--r-- 1 CTS+2320404 4096 0 Aug 17 00:23 sample_file_3.day
+[2026-08-17 00:23:26] IST ================================================
+[2026-08-17 00:23:27] IST Part 2 Deployment Completed Successfully!
+[2026-08-17 00:23:27] IST ================================================
+[(date '+%Y-%m-%d %H:%M:%S')] IST For more details, check the log file: /c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes/shell_scripts/logs/part_2/part_2_20260817_002318.log

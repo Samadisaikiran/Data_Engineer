@@ -32,7 +32,6 @@ mkdir -p "$LOG_DIR"
 #------------------------------------------
 
 #Function to log messages to log file
-
 log_file() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S') IST] $1" >> "$LOG_FILE"
 }
@@ -171,7 +170,7 @@ log_screen "================================================"
 #------------------------------------------
 # For More Details Check Log File
 #------------------------------------------
-
-log_screen "For more details, check the log file: $LOG_FILE"
+log_file "For more details, check the log file: $LOG_FILE"
+echo "For more details, check the log file: $LOG_FILE"
 
 exit 0
