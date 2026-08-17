@@ -1,5 +1,5 @@
 #!/bin/bash
-
+START_TIME=$(date +%s)
 #==========================================
 # Script  : part1.sh
 # Purpose : Automated File Deployment
@@ -88,6 +88,7 @@ if [ ! -f "$SOURCE_DIR/$SOURCE_FILE" ]; then
 fi
 
 log_file "SUCCESS: Source file exists: $SOURCE_DIR/$SOURCE_FILE"
+log_screen "SUCCESS: $SOURCE_FILE file Found!"
 
 #------------------------------------------
 # STEP 4 - TARGET DIRECTORY CHECK
@@ -172,5 +173,12 @@ log_screen "================================================"
 #------------------------------------------
 log_file "For more details, check the log file: $LOG_FILE"
 echo "For more details, check the log file: $LOG_FILE"
+
+#------------------------------------------
+## Execution Time Calculation
+#------------------------------------------
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+echo "Total execution time: ${DURATION} seconds"
 
 exit 0

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+START_TIME=$(date +%s)
 #==========================================
 # Script  : part2.sh
 # Purpose : Automated File Deployment
@@ -76,6 +76,7 @@ perform_file_operation() {
         log_file "SUCCESS: $TARGET_FILE file found!"
         log_file "SUCCESS: Target $TARGET_FILE file $FILE_NUM found!"
         log_file "Removing $TARGET_FILE file $FILE_NUM..."
+        log_screen "Proceeding to remove $TARGET_FILE file..."
         rm -f "$TARGET_DIR/$TARGET_FILE"
         if [ $? -eq 0 ]; then
             log_screen "SUCCESS: $TARGET_FILE file removed!"
@@ -179,6 +180,7 @@ log_file "Step 6: Final verification of all files..."
 
 if [ -f "$TARGET_DIR/$TARGET_FILE_2" ] && \
    [ -f "$TARGET_DIR/$TARGET_FILE_3" ]; then
+    log_screen "....."
     log_screen "SUCCESS: All files verified Successfully!"
 #   ls -ltr "$TARGET_DIR/" | tee -a "$LOG_FILE"
     ls -ltr "$TARGET_DIR/" >> "$LOG_FILE"
@@ -200,5 +202,12 @@ log_screen "================================================"
 #------------------------------------------
 log_file "For more details, check the log file: $LOG_FILE"
 echo "For more details, check the log file: $LOG_FILE"
+
+#------------------------------------------
+## Execution Time Calculation
+#------------------------------------------
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+echo "Total execution time: ${DURATION} seconds"
 
 exit 0
