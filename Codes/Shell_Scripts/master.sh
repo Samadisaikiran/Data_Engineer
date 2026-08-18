@@ -1,9 +1,8 @@
 #!/bin/bash
 ./acaps_part_1.sh
 
-echo ""
-
 if [ $? -eq 0 ]; then
+	echo ""
 	echo "Part_1 Completed Successfully"
 	echo "Wait for 30 min"
 else
