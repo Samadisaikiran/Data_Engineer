@@ -20,8 +20,8 @@ from email.header import decode_header
 #------------------------------------------
 # CONFIGURATION
 #------------------------------------------
-EMAIL_ADDRESS   = "yourgmail@gmail.com"
-APP_PASSWORD    = "gmail16charcters password"
+EMAIL_ADDRESS   = "@gmail.com"
+APP_PASSWORD    = "yourgmaipwd"  # Replace with your actual app password
 IMAP_SERVER     = "imap.gmail.com"
 TRIGGER_SUBJECT = "ACAPS Data Load Complete"
 BASH_PATH       = "C:/Program Files/Git/bin/bash.exe"
