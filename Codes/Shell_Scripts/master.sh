@@ -5,6 +5,7 @@ bash "/c/Users/2320404/OneDrive - Cognizant/documents/github/data_engineer/codes
 
 minutes=1
 while [ $minutes -gt 0 ];do
+	echo ""
 	echo "Time remaining: $minutes minutes..."
 	sleep 5
 	minutes=$((minutes -1))
