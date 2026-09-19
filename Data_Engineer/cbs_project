@@ -1,0 +1,124 @@
+SAI KIRAN — CBS MOCK PROJECT MASTER PLAN
+PERSONAL CONTEXT
+Name              → Sai Kiran Samadi
+Role              → Programmer Analyst, Cognizant
+Experience        → 2.6 years, BFSI domain
+Goal              → Data Engineer in 12-18 months
+CURRENT SKILLS
+Shell scripting   → done
+SQL               → intermediate
+SAS               → working knowledge
+Linux             → comfortable
+Python            → beginner
+DB2               → basic exposure
+Cloud             → not started
+dbt               → not started
+Airflow           → not started
+Spark             → not started
+MAIN PROJECT
+Mock Core Banking System (CBS)
+Purpose     → Simulate real bank data architecture
+             like HDFC, ICICI, SBI, Axis
+Stack       → Python + PostgreSQL + SQL + GitHub
+Goal        → Complete Data Engineer portfolio project
+PROJECT FOLDER STRUCTURE
+mock_cbs/
+├── customers/
+│   ├── customer_master.sql
+│   └── kyc_data.sql
+├── accounts/
+│   ├── savings_account.sql
+│   ├── current_account.sql
+│   └── fd_account.sql
+├── transactions/
+│   ├── debit_credit.sql
+│   ├── neft_rtgs.sql
+│   └── upi_transactions.sql
+├── pipelines/
+│   ├── daily_batch.py
+│   ├── interest_calculation.py
+│   └── rbi_report_generator.py
+└── warehouse/
+    ├── fact_transactions.sql
+    └── dim_customers.sql
+6 PHASE BUILD PLAN
+Phase 1 → Database Schema Design        (2 weeks)
+          customers, accounts, KYC
+
+Phase 2 → Transaction Engine in SQL     (3 weeks)
+          triggers, stored procedures,
+          ACID, balance validation
+
+Phase 3 → Python ETL Pipeline           (3 weeks)
+          psycopg2, pandas, transforms,
+          DB connectivity
+
+Phase 4 → Batch Jobs + Interest Calc    (2 weeks)
+          EOD processing, scheduling,
+          financial logic
+
+Phase 5 → RBI Report Generation         (2 weeks)
+          regulatory formats,
+          Excel/PDF from Python
+
+Phase 6 → GitHub + Documentation        (1 week)
+          README, project structure,
+          optional Docker
+REALISTIC TIMELINE
+At 1 hour/day   → 8 to 9 months
+At 2 hours/day  → 4 to 5 months
+At 3 hours/day  → 2 to 3 months
+CORRECT LEARNING ORDER BEFORE BUILDING
+Month 1   → Python basics + SQL advanced (parallel)
+Month 2   → Start Phase 1
+Month 3-6 → Build phase by phase
+Month 7   → Polish + GitHub + start applying
+WHAT THIS PROJECT COVERS
+✅ Python pipelines
+✅ Advanced SQL
+✅ Data modeling
+✅ ETL concepts
+✅ BFSI domain depth
+✅ GitHub portfolio
+✅ Batch processing
+✅ Regulatory reporting
+CBS ARCHITECTURE UNDERSTOOD
+Real platforms:
+SBI, HDFC      → Finacle (Infosys)
+Axis           → Temenos T24
+Canara         → BaNCS (TCS)
+US Banks       → Custom + Fiserv
+
+Layers:
+1. Channels    → Mobile, ATM, Branch, UPI
+2. CBS Core    → Accounts, Transactions, Interest
+3. Database    → DB2, Oracle, PostgreSQL
+4. Integration → RBI, SWIFT, NPCI
+TRANSACTION FLOW UNDERSTOOD
+User initiates → API Gateway → Auth
+→ CBS receives → Debit check
+→ Debit + Credit simultaneously (ACID)
+→ Failure = full rollback
+→ Notification sent
+→ RBI reporting at EOD
+→ Ledger reconciliation at midnight
+SECONDARY PROJECT (ON HOLD)
+LinkedIn Auto Applier
+Stack  → Python + Selenium + GitHub Actions
+Status → On hold until Python basics done
+Reason → Too advanced for current Python level
+Note   → Do not build on company laptop
+         Company firewall blocks Selenium
+         Use personal laptop or Oracle free VPS
+NEXT IMMEDIATE ACTION
+Step 1 → Go to roadmap.sh/python today
+Step 2 → Complete Python basics (2 weeks)
+Step 3 → SQL advanced in parallel
+Step 4 → Come back and start Phase 1 schema design
+HOW TO RESUME WITH CLAUDE
+Paste this entire document at the start
+of your next conversation and say:
+
+"Pick up where we left off on my CBS project"
+
+Claude will have full context instantly.
