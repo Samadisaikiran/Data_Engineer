@@ -17,3 +17,4 @@ with open("banking_data.txt", "w") as f:
 with open("banking_data.txt", "r") as f:
     content = f.read()
     print(content)
+
